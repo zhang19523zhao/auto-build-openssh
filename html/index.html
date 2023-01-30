@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .info {
+            height: calc(100vh - 49px);
+            width: 100%;
+            background: black;
+            overflow-y: scroll;
+
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div>
+        <form action="/start" method="post">
+            <select name="system">
+<!--                <option value="centos6">centos6</option>-->
+                <option value="centos7">centos7</option>
+                <option value="centos8">centos8</option>
+            </select>
+            <input type="text" name="url" required="required">
+<!--            <button type="submit" v-on:click="connWs">提交</button>-->
+                <button type="submit" value="查看" v-on:click="connWs">提交</button>
+
+        </form>
+
+    </div>
+    <div id="test" class="info" >
+<!--        <span v-for="msgn in msgList" class="msg" style="color: white">${msgn}<br></span>-->
+        <pre v-for="msgn in msgList" class="msg" style="color: white; margin: 0">${msgn}</pre>
+    </div>
+
+</div>
+</body>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+<script>
+
+    let gWs
+
+    let app = new Vue({
+        el: '#app',
+
+        data: {
+            msgList: [],
+            msg: "",
+        },
+
+
+        methods: {
+            connWs: function () {
+                let that = this
+                let host = location.host;
+                gWs = new WebSocket("ws://" + host + "/ws");
+                gWs.onopen = function () {
+
+                }
+                gWs.onmessage = function (evt) {
+
+                    let receive = JSON.parse(evt.data)
+                    that.msgList.push(receive)
+
+                }
+                gWs.onerror = function (evt) {
+                    console.log("websocket 发生错误")
+                    console.log(evt)
+                }
+                gWs.onclose = function () {
+                    console.log("conn 已经关闭")
+                }
+            },
+            sendMessage: function () {
+                let msg = JSON.stringify({"content": this.msg})
+                gWs.send(msg)
+                this.msg = ""
+
+            },
+
+        },
+        delimiters: ['${', '}'],
+        mounted: function (){
+            this.connWs()
+        }
+    })
+
+</script>
+
+
+
+</html>
