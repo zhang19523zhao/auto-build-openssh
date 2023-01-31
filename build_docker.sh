@@ -70,7 +70,7 @@ print_info(){
 #####################################################下载地址########################################################@
 #                                                                                                                   #
 #                                                                                                                   #
-#$OPENSSH_VERSION RPM包制作完成,下载地址: http://www.zhanghaobk.com:81/openssh/$IMAGE/${OPENSSH_VERSION}-rpms.tar.gz   #
+#$OPENSSH_VERSION RPM包制作完成,下载地址: http://www.zhanghaobk.com:81/openssh/$IMAGE/${OPENSSH_VERSION}-rpms.tar.gz          #
 #                                                                                                                   #
 #                                                                                                                   #
 ######################################################更新说明########################################################@
